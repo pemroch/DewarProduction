@@ -1,0 +1,39 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            Add User
+        <span flex></span>
+        <md-button ng-click="editUser.hide()" class="md-icon-button">
+            <md-icon class="material-icons">close</md-icon>
+        </md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <form name="editUser.form" layout="column" class="md-padding">
+            <md-input-container md-no-float>
+                <input ng-model="editUser.fName" class="name" ng-change="editUser.error = ''" autocomplete="off" placeholder="First Name" md-auto-focus required>
+            </md-input-container>
+            <md-input-container md-no-float>
+                <input ng-model="editUser.mName" class="name" ng-change="editUser.error = ''" autocomplete="off" placeholder="Middle Name">
+            </md-input-container>
+            <md-input-container md-no-float>
+                <input ng-model="editUser.lName" class="name" ng-change="editUser.error = ''" autocomplete="off" placeholder="Last Name" required>
+            </md-input-container>
+            <div layout="row" layout-align="center center" ng-if="editUser.error" class="md-padding">
+                <span class="md-caption formError">{{ editUser.error }}</span>
+            </div>
+        </form>   
+    </md-content>
+    <md-divider></md-divider>
+    <md-dialog-actions layout="row">
+        <md-switch ng-model="editUser.isAdmin" aria-label="Administrator">
+            Administrator
+        </md-switch>    
+        <span flex></span>
+        <md-button class="md-primary md-raised" 
+                ng-click="editUser.checkExist()" 
+                ng-disabled="editUser.disableSubmit || editUser.form.$invalid">
+            Save
+        </md-button> 
+    </md-dialog-actions>
+</md-dialog>

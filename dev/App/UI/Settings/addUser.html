@@ -1,0 +1,45 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            Add User
+        <span flex></span>
+        <md-button ng-click="addUser.hide()" class="md-icon-button">
+            <md-icon class="material-icons">close</md-icon>
+        </md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <form name="addUser.form" layout="column" class="md-padding">
+            <md-input-container md-no-float>
+                <input ng-model="addUser.fName" class="name" ng-change="addUser.error = ''" autocomplete="off" placeholder="First Name" md-auto-focus required>
+            </md-input-container>
+            <md-input-container md-no-float>
+                <input ng-model="addUser.mName" class="name" ng-change="addUser.error = ''" autocomplete="off" placeholder="Middle Name">
+            </md-input-container>
+            <md-input-container md-no-float>
+                <input ng-model="addUser.lName" class="name" ng-change="addUser.error = ''" autocomplete="off" placeholder="Last Name" required>
+            </md-input-container>
+            <md-input-container md-no-float>
+                <input ng-model="addUser.email" type="email" ng-change="addUser.error = ''" autocomplete="off" placeholder="Email" required>
+            </md-input-container>
+            <md-input-container md-no-float>
+                <input ng-model="addUser.password" type="password" ng-change="addUser.error = ''" autocomplete="new-password" autocomplete="off" placeholder="Password" required>
+            </md-input-container>
+            <div layout="row" layout-align="center center" ng-if="addUser.error" class="md-padding">
+                <span class="md-caption formError">{{ addUser.error }}</span>
+            </div>
+        </form>   
+    </md-content>
+    <md-divider></md-divider>
+    <md-dialog-actions layout="row">
+        <md-switch ng-model="addUser.isAdmin" aria-label="Administrator">
+            Administrator
+        </md-switch>    
+        <span flex></span>
+        <md-button class="md-primary md-raised" 
+                ng-click="addUser.checkExist()" 
+                ng-disabled="addUser.disableSubmit || addUser.form.$invalid">
+            Add User
+        </md-button> 
+    </md-dialog-actions>
+</md-dialog>

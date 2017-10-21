@@ -1,0 +1,100 @@
+<div ng-if="archive.loading" class="progressFull md-display-1">
+    Loading...
+</div>
+
+<md-toolbar id="archiveToolBar">
+    <div class="md-toolbar-tools">
+        <md-button ng-click="archive.toggleMenu()" class="md-icon-button">
+            <md-icon class="material-icons">menu</md-icon>
+        </md-button>
+        <span flex></span>
+        Archive
+        <span flex></span>
+        <md-button ng-click="archive.deleteSelected($event)" ng-disabled="!archive.selected.length" class="md-icon-button">
+            <md-icon class="material-icons">delete</md-icon>
+        </md-button>        
+    </div>
+</md-toolbar>
+
+<div ng-if="!archive.loading"  id="archiveContainer" layout="column" flex>
+    <form name="archive.form" layout="row" layout-align="end center" class="updateDaysRow md-padding">
+        <md-input-container flex="10">
+            <label>Days in the past</label>
+            <input type="number" ng-model="archive.startDay" required>
+        </md-input-container>
+        <md-input-container flex="10">
+            <label>Days in the future</label>
+            <input type="number" ng-model="archive.endDay" required>
+        </md-input-container>
+        <md-button type="submit" ng-click="archive.loadArchive()" ng-disabled="archive.form.$invalid" class="md-primary">
+            Update
+        </md-button>
+    </form>    
+    <md-content  id="archiveChildContainer" flex>
+        <div ng-repeat="reminder in archive.archive | orderBy: 'date' track by $index" class="md-padding" ng-class-odd="'odd'" layout="row">
+            <div layout="column" layout-align="center center" flex="5">
+                <div layout="row" layout-align="center center">
+                    <md-checkbox ng-model="reminder.selected" ng-change="archive.selectedChanged(reminder)" class="md-warn" aria-label="Selected"></md-checkbox>
+                </div>
+            </div>
+            <div layout="column" layout-align="center center" flex="35">
+                <div layout="row" layout-align="start center">
+                    <div class="md-body-2">{{ reminder.date | date: 'MM/dd/yyyy' }}</div>
+                </div>
+                <div layout="row" layout-align="start center">
+                    <div class="md-body-2">Crop</div>
+                    <div class="name md-body-1">: {{ reminder.itemName }}</div>
+                </div>                    
+                <div layout="row" layout-align="start center">
+                    <div class="md-body-2">Action</div>
+                    <div class="name md-body-1">: {{ reminder.action }}</div>
+                </div>                    
+                <div layout="row" layout-align="center center">
+                    <div class="md-body-2">Status</div>
+                    <div class="name md-body-1" ng-class="{ pending: !reminder.status, reviewed: reminder.status === 'reviewed', completed: reminder.status === 'completed' }">: {{ reminder.status || 'Pending' }}</div>
+                </div>                       
+                <div layout="row" layout-align="start center">
+                    <md-button ng-click="archive.unArchive($event, reminder)" class="md-warn md-raised">
+                        un-archive
+                    </md-button>                            
+                </div>                            
+            </div>
+            <div layout="column" layout-align="center start" flex="30">
+                <div ng-repeat="(key, order) in reminder.fields" ng-if="order.value" layout="row" layout-align="start center">
+                    <div class="name md-body-2">{{ (order.fieldName === 'cuttings' ? 'Cuttings/Bulbs' : order.fieldName) }}</div>
+                    <div class="name md-body-1">: {{ order.value }}</div>
+                </div>
+                <div layout="row" layout-align="start center">                    
+                    <div class="md-body-2">Location</div>
+                    <div class="name md-body-1">: {{ reminder.location }}</div>                    
+                </div>
+            </div>
+            <div layout="column" layout-align="center start" flex="30">                 
+                <div layout="row" layout-align="center center">
+                    <div class="md-body-2">Reminder ID</div>
+                    <div class="md-body-1">: {{ reminder.reminderKey | limitTo: -4 }}</div>                        
+                </div>                            
+                <div layout="row" layout-align="start center">                    
+                    <div class="md-body-2">Completed On</div>
+                    <div class="name md-body-1">: {{ reminder.completedOn | date: 'MM/dd/yyyy @ HH:mm' }}</div>
+                </div>
+                <div ng-if="reminder.reviewedBy" layout="row" layout-align="start center">                    
+                    <div class="md-body-2">Reviewed By</div>
+                    <div class="name md-body-1">: {{ reminder.reviewedBy }}</div>
+                </div>                
+                <div ng-if="reminder.reviewedBy" layout="row" layout-align="start center">                    
+                    <div class="md-body-2">Review Comment</div>
+                    <div class="md-body-1">: {{ reminder.reviewComment ? '"' + reminder.reviewComment + '"' : '-' }}</div>
+                </div>                                        
+                <div ng-if="reminder.completedBy" layout="row" layout-align="start center">
+                    <div class="md-body-2">Completed By</div>
+                    <div class="name md-body-1">: {{ reminder.completedBy }}</div>
+                </div>                    
+                <div ng-if="reminder.completedBy" layout="row" layout-align="start center">
+                    <div class="md-body-2">Completed Comment</div>
+                    <div class="md-body-1">: {{ reminder.completeComment ? '"' + reminder.completeComment + '"' : '-' }}</div>
+                </div>                                                                     
+            </div>                                     
+        </div>
+    </md-content>
+</div>

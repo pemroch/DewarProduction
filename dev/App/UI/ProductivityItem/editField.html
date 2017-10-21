@@ -1,0 +1,33 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span ng-if="!editField.saving">Edit Column</span>
+            <span ng-if="editField.saving">Saving...</span>
+        <span flex></span>
+        <md-button ng-click="editField.hide()" ng-disabled="editField.disableSubmit" class="md-icon-button">
+            <md-icon class="material-icons">close</md-icon>
+        </md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <form name="editField.form" class="md-padding">
+            <md-input-container class="md-block" md-no-float>
+                <input ng-model="editField.fieldName" ng-change="editField.error = ''" placeholder="Title" autocomplete="off" class="name" md-autofocus required>
+            </md-input-container>
+           <div ng-if="editField.category === 'reminder'" layout="row" layout-align="center center" flex>
+                <span>Ship Date - </span>
+                <span flex></span>
+                <md-input-container class="shipDateDifference" md-no-float>
+                    <input type="number" ng-model="editField.days" ng-change="editField.error = ''" ng-pattern="/^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/" ng-trim="false" placeholder="# of" autocomplete="off" required>
+                </md-input-container>    
+                <span flex></span>
+                <span> days</span>        
+            </div>
+            <div class="md-caption formError center">{{ editField.error }}</div>
+        </form>
+    </md-content>
+    <md-divider></md-divider>
+    <md-dialog-actions layout="row">
+        <md-button type="submit" ng-click="editField.checkExist()" ng-disabled="editField.disableSubmit || editField.form.$invalid" class="md-primary md-raised">Done</md-button> 
+    </md-dialog-actions>
+</md-dialog>

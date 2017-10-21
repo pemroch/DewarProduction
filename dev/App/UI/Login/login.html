@@ -1,0 +1,24 @@
+<div ng-if="login.loading" class="progressFull md-display-1">
+    Loading...
+</div>
+
+<md-toolbar ng-if="!login.loading">
+    <div class="md-toolbar-tools">Dewar Productivity</div>
+</md-toolbar>
+
+<div ng-if="!login.loading" layout="row" layout-align="center center" flex>
+    <div layout="column" flex="30">
+        <form name="login.form" layout="column">
+            <md-input-container md-no-float class="md-block">
+                <input type="email" ng-model="login.email" ng-change="login.error = ''" placeholder="Email" autofocus autocomplete="off" required>
+            </md-input-container>
+            <md-input-container md-no-float class="md-block">
+                <input type="password" ng-model="login.password" ng-change="login.error = ''" placeholder="Password" autocomplete="new-password" autocomplete="off" required>
+            </md-input-container>
+            <div ng-if="login.emailSuccess" class="md-caption center completed">Reset email successfully sent</div>
+            <div class="md-caption formError center">{{ login.error }}</div>
+            <md-button type="submit" ng-click="login.login()" ng-disabled="login.disableSubmit || login.form.$invalid" class="md-primary" flex>Login</md-button>
+        </form>
+        <md-button type="buttton" ng-click="login.resetPassword($event)" flex>Forgot Password</md-button>
+    </div>
+</div>

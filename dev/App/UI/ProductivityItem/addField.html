@@ -1,0 +1,37 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span ng-if="!addField.saving">Add Column</span>
+            <span ng-if="addField.saving">Saving...</span>
+        <span flex></span>
+        <md-button ng-click="addField.hide()" ng-disabled="addField.disableSubmit" class="md-icon-button">
+            <md-icon class="material-icons">close</md-icon>
+        </md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <form name="addField.form" class="md-padding">
+            <md-input-container class="md-block" md-no-float>
+                <input ng-model="addField.newField" ng-change="addField.error = ''" placeholder="Title" autocomplete="off" class="name" md-autofocus required>
+            </md-input-container>
+            <md-radio-group ng-model="addField.category" required>
+                <md-radio-button value="text" class="md-primary">Text</md-radio-button>
+                <md-radio-button value="reminder" class="md-primary">Date</md-radio-button>
+            </md-radio-group>
+            <div ng-if="addField.category === 'reminder'" layout="row" layout-align="center center" flex>
+                <span>Ship Date - </span>
+                <span flex></span>
+                <md-input-container class="shipDateDifference" md-no-float>
+                    <input type="number" ng-model="addField.shipDateDifference" ng-change="addField.error = ''" ng-pattern="/^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/" ng-trim="false" placeholder="# of" autocomplete="off" required>
+                </md-input-container>    
+                <span flex></span>
+                <span> days</span>        
+            </div>
+            <div class="md-caption formError center">{{ addField.error }}</div>
+        </form>
+    </md-content>
+    <md-divider></md-divider>
+    <md-dialog-actions layout="row">
+        <md-button type="submit" ng-click="addField.checkExist()" ng-disabled="addField.disableSubmit || addField.form.$invalid" class="md-primary md-raised">Add Column</md-button> 
+    </md-dialog-actions>
+</md-dialog>

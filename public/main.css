@@ -1,0 +1,313 @@
+.center {
+    text-align: center;
+}
+.progressFull {
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    z-index: 1;
+    font-size: 30px;
+}
+.progressFull > md-progress-circular {
+    left: 50%;
+    top: 50%;
+}
+.formError {
+    color: rgb(244,67,54);
+}
+.name {
+    text-transform: capitalize;
+}
+.settingsToolbar {
+    background-color: black !important;
+}
+#sideNav {
+    border-right: 1px solid #ccc;
+}
+.addItemContainer {
+    margin: 0px;
+}
+.rotate {
+  transform: rotate( 45deg );
+}
+.rotate md-icon {
+  color: rgb(63,81,181) !important;
+}
+.no-click {
+    pointer-events: none;
+}
+.paddingReminder {
+    padding-left: 18px !important;
+}
+.paddingText {
+    padding-left: 4px !important;
+}
+.paddingReminder.fieldValue {
+    padding-top: 12px !important;
+    padding-left: 18px !important;
+}
+.paddingText.fieldValue {
+    padding-top: 10px !important;
+    padding-left: 6px !important;
+}
+.paddingDate {
+    padding-left: 18px !important;
+}
+.redBackground {
+    background-color: rgb(255,87,34) !important;
+    color: white !important;
+}
+.redIcon md-icon {
+    color: rgb(255,87,34) !important;
+}
+.noMargin {
+    margin: 0px !important;
+}
+.alignInput {
+    margin-top: 24px !important;
+}
+.fieldList {
+    height: 40px !important;
+}
+.removeFieldIcon {
+    margin: 0px !important;
+}
+.removeOrderIcon {
+    margin: 0px;
+    top: -16px;
+}
+.width15 {
+    width: 15%;
+    min-width: 15%;
+    max-width: 15%;
+}
+.orderColumn {
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+    padding-right: 16px;
+    height: 50px !important;
+    padding-top: 36px;
+    padding-bottom: 24px;
+}
+.orderColumnTitle {
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+    padding-right: 16px;
+}
+.reminderColumn {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    min-width: 160px;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+.width14 {
+    width: 14%;
+    min-width: 14%;
+    max-width: 14%;
+}
+.reminderIndex {
+    width: 8%;
+    min-width: 8%;
+    max-width: 8%;
+}
+#productivityItemChildContainer, #remindersChildContainer, #archiveChildContainer {
+    overflow-x: scroll;
+}
+#productivityItemChildContainer::-webkit-scrollbar, #remindersChildContainer::-webkit-scrollbar, #archiveChildContainer::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+#productivityItemChildContainer::-webkit-scrollbar:horizontal, #remindersChildContainer::-webkit-scrollbar:horizontal, #archiveChildContainer::-webkit-scrollbar:horizontal {
+    height: 18px;
+}
+#productivityItemChildContainer::-webkit-scrollbar:vertical, #remindersChildContainer::-webkit-scrollbar:vertical, #archiveChildContainer::-webkit-scrollbar:vertical {
+    width: 18px;
+}
+#productivityItemChildContainer::-webkit-scrollbar-thumb, #remindersChildContainer::-webkit-scrollbar-thumb, #archiveChildContainer::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, .5);
+}
+.savePadding {
+    margin-bottom: 16px !important;
+}
+.paddingEditOrder {
+    padding-left: 48px !important;
+}
+.paddingEditFeilds {
+    padding-left: 40px !important;
+}
+.fieldInput {
+    padding-top: 24px;
+}
+.pending {
+    color: #F44336;
+}
+.reviewed {
+    color: #FFA800;
+}
+.completed {
+    color: #43A047;
+}
+.shipDateDifference {
+    width: 56%;
+    top: 4px !important;
+    position: relative;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.editButton {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    background: white;
+    color: rgb(63,81,181) !important;
+}
+.editButton:hover {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26) !important;
+    background: white !important;
+    color: rgb(63,81,181) !important;
+}
+.editButton > md-icon {
+    color: rgb(63,81,181) !important;
+}
+.archiveCheckbox {
+    margin-bottom: 0px; 
+}
+.spanBlock {
+    height: 40px;
+    display: block;
+}
+.notesSave {
+    top: 20px;
+}
+.noteChanges {
+    top: 32px;
+    padding-left: 16px;
+    position: relative;
+}
+#newOrderColumn {
+    height: 100px;
+}
+.orderNumber {
+    width: 30px;
+    min-width: 30px;
+}
+#sideNavLoading {
+    position: relative;
+    top: 45%;
+}
+.shipDate {
+    outline: none !important;
+    font-size: 14px;
+}
+.shipDateDummy {
+    width: 144px;
+    height: 24px;
+    font-size: 14px;
+    padding-bottom: 4px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    padding-top: 2px;
+    padding-left: 2px;
+    letter-spacing: .5px;    
+}
+.odd {
+    background: rgba(0, 0, 0, .1);
+}
+.odd .reminderColumn {
+    background: #ECEFF1;
+}
+.odd .orderColumn {
+    background: #ECEFF1;
+}
+#remindersToolbar {
+    background: #673AB7;
+}
+#usersToolBar {
+    background: #009688;
+}
+#archiveToolBar {
+    background: #EF6C00;
+}
+.updateDaysRow {
+    height: 70px;
+    padding-top: 30px;
+}
+.orderComplete {
+    color: rgba(0, 0, 0, .5);
+}
+.paddingSides {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.link {
+    color: rgb(63,81,181);
+    outline: none;
+    cursor: pointer;
+}
+.linkDisabled {
+    pointer-events: none;
+    color: rgba(0, 0, 0, .5);
+}
+#sideNavToolbar {
+    background: #424242;
+}
+.reminderCheckbox {
+    padding-left: 16px;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+.odd .reminderCheckbox {
+    background: #ECEFF1;
+}
+.reminderCheckbox md-checkbox {
+    margin: 0;
+}
+.reminderIndex {
+    padding-left: 16px;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+.odd .reminderIndex {
+    background: #ECEFF1;
+}
+.reminderIndex md-checkbox {
+    margin: 0;
+}
+.reminderStatusIcon {
+    min-width: 80px;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+.odd .reminderStatusIcon {
+    background: #ECEFF1;
+}
+.orderTotal {
+    font-weight: 800;
+}
+.totalRow {
+    border-top: 1px solid rgba(0, 0, 0, .5);
+}
+.orderColumnTotal {
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+    padding-right: 16px;
+    height: 40px !important;
+}
+.commaCaption {
+    color: rgba(0, 0, 0, .3);
+    font-size: 14px;
+    position: absolute;
+    padding-bottom: 40px;
+    padding-left: 4px;
+}
+.orderCheckBox > md-checkbox {
+    margin: 0;
+    margin-left: 6px;
+}
+.orderId {
+    width: 60px;
+    min-width: 60px;
+}

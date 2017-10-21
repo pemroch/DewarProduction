@@ -1,0 +1,34 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+        <span class="name">{{ updateStatus.action }}</span>
+        <span flex></span>
+        <md-button ng-click="updateStatus.hide()" ng-disabled="updateStatus.disableSubmit" class="md-icon-button">
+            <md-icon class="material-icons">close</md-icon>
+        </md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <form name="updateStatus.form" class="md-padding">
+            <div ng-if="updateStatus.action === 'reviewed'">
+                Review Reminder {{ updateStatus.index | limitTo: -4 }} ?
+            </div>
+            <div ng-if="updateStatus.action === 'completed'">
+                Complete Reminder {{ updateStatus.index | limitTo: -4 }} ?
+            </div>
+            <md-input-container ng-if="updateStatus.action === 'completed'" class="md-block">
+                <label>Location</label>
+                <input type="text" ng-model="updateStatus.location" class="name" autocomplete="off" md-autofocus required>
+            </md-input-container>            
+            <md-input-container class="md-block">
+                <label>Comment</label>
+                <textarea ng-model="updateStatus.comment" md-maxlength="50" rows="1" autocomplete="off" md-select-on-focus></textarea>
+            </md-input-container>            
+            <div class="md-caption formError center">{{ updateStatus.error }}</div>
+        </form>
+    </md-content>
+    <md-divider></md-divider>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="updateStatus.update()" ng-disabled="updateStatus.disableSubmit || updateStatus.form.$invalid" class="md-primary md-raised">Update</md-button> 
+    </md-dialog-actions>
+</md-dialog>

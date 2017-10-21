@@ -1,0 +1,63 @@
+<section layout="row" flex>
+    <md-sidenav
+    class="md-sidenav-left"
+    layout="column"
+    md-component-id="left"
+    md-whiteframe="4">
+        <md-toolbar id="sideNavToolbar">
+            <div layout-align="space-around center" class="md-toolbar-tools">
+                <md-button ui-sref="home.reminders" ng-click="home.newItem = false; home.editItem = false; home.newItemTitle = ''" class="md-icon-button">
+                    <md-icon class="material-icons">notifications</md-icon>
+                </md-button>
+                <md-button ng-if="home.user.data.isAdmin" ui-sref="home.users" ng-click="home.newItem = false; home.editItem = false; home.newItemTitle = ''" class="md-icon-button">
+                    <md-icon class="material-icons">group</md-icon>
+                </md-button>
+                <md-button ng-if="home.user.data.isAdmin" ui-sref="home.archive" ng-click="home.newItem = false; home.editItem = false; home.newItemTitle = ''" class="md-icon-button">
+                    <md-icon class="material-icons">history</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <div ng-if="home.loading" layout="column" layout-align="center center" id="sideNavLoading" class="md-headline">Loading...</div>
+        <md-content>
+            <div ng-hide="home.loading">
+                <div ng-if="home.user.data.isAdmin" layout="row" layout-align="space-around center" class="md-padding">
+                    <md-button ng-click="home.editItem = !home.editItem; home.newItem = false; home.newItemTitle = ''" ng-class="{ redIcon: home.editItem }" class="md-icon-button">
+                        <md-icon class="material-icons">remove</md-icon>
+                    </md-button>
+                    <md-button ng-click="home.focus()" ng-class="{ rotate: home.newItem }" class="md-icon-button">
+                        <md-icon class="material-icons">add</md-icon>
+                    </md-button>            
+                </div>
+                <form ng-if="home.newItem" name="home.addNewItemForm"  layout="column" class="md-padding">
+                    <md-input-container class="addItemContainer" md-no-float>
+                        <input id="addItemInput" ng-model="home.newItemTitle" ng-change="home.error = ''" placeholder="Add New Item" class="name" autocomplete="off" required>
+                    </md-input-container>
+                    <div class="md-caption formError center">{{ home.error }}</div>
+                    <md-button type="submit" ng-click="home.checkExist()" ng-disabled="home.disableSubmit || home.addNewItemForm.$invalid" class="md-primary md-raised">
+                        Add
+                    </md-button>
+                </form>
+                <md-divider></md-divider>
+                <md-list>
+                    <md-list-item ng-repeat="item in home.productivityList | orderBy: 'itemName'" ui-sref="home.productivityItem({ itemName: item.itemName, itemKey: item.$id })" ng-click="home.newItem = false; home.newItemTitle = ''; home.editItem = false" class="name" flex>
+                        <md-button ng-if="home.editItem" ng-click="home.removItem($event, item)" class="md-warn md-icon-button">
+                            <md-icon class="material-icons">remove_circle</md-icon>
+                        </md-button>                
+                        <span class="name">{{ item.itemName }}</span>
+                        <md-divider></md-divider>    
+                    </md-list-item>	
+                </md-list>	
+            </div>
+        </md-content>        
+        <span flex></span>
+        <md-divider></md-divider>
+        <md-button ui-sref="login" class="md-button-icon md-warn">
+            <md-icon class="material-icons">power_settings_new</md-icon>
+        </md-button>
+    </md-sidenav>			
+		
+    <md-content flex>
+        <ui-view name="homeContent" layout="column" layout-fill></ui-view>
+    </md-content>
+
+  </section>

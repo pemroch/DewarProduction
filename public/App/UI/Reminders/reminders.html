@@ -1,0 +1,83 @@
+<div ng-if="reminders.loading" class="progressFull md-display-1">
+    Loading...
+</div>
+
+<md-toolbar id="remindersToolbar">
+    <div class="md-toolbar-tools">
+        <md-button ng-click="reminders.toggleMenu()" class="md-icon-button">
+            <md-icon class="material-icons">menu</md-icon>
+        </md-button>        
+        <span flex></span>
+        Reminders
+        <span flex></span>
+        <md-button ng-click="reminders.print()" ng-disabled="!reminders.selected.length" class="md-icon-button">
+            <md-icon class="material-icons">print</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<div ng-if="!reminders.loading" id="remindersContainer" layout="column" flex>
+    <form name="reminders.form" layout="row" layout-align="end center" class="updateDaysRow md-padding">
+        <md-input-container flex="10">
+            <label>Days in the future</label>
+            <input type="number" ng-model="reminders.days" required>
+        </md-input-container>
+        <md-button type="submit" ng-click="reminders.loadReminders()" ng-disabled="reminders.form.$invalid" class="md-primary">
+            Update
+        </md-button>
+    </form>
+    <md-content id="remindersChildContainer" flex>
+        <div ng-repeat="reminder in reminders.reminders | orderBy: 'date' track by $index" class="md-padding" ng-class-odd="'odd'" layout="row">
+            <div layout="column" layout-align="center center" flex="5">
+                <div layout="row" layout-align="center center">
+                    <md-checkbox ng-model="reminder.selected" ng-change="reminders.selectedChanged(reminder)" aria-label="Selected"></md-checkbox>
+                </div>
+            </div>
+            <div layout="column" layout-align="center center" flex="35">
+                <div layout="row" layout-align="center center">
+                    <div class="md-body-2">{{ reminder.date | date: 'MM/dd/yyyy' }}</div>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <div class="md-body-2">Crop</div>
+                    <div class="name md-body-1">: {{ reminder.itemName }}</div>
+                </div>                    
+                <div layout="row" layout-align="center center">
+                    <div class="md-body-2">Action</div>
+                    <div class="name md-body-1">: {{ reminder.action }}</div>
+                </div>                    
+                <div layout="row" layout-align="center center">
+                    <div class="md-body-2">Status</div>
+                    <div class="name md-body-1" ng-class="{ pending: !reminder.status, reviewed: reminder.status === 'reviewed', completed: reminder.status === 'completed' }">: {{ reminder.status || 'Pending' }}</div>
+                </div>                        
+                <div layout="row" layout-align="center center">
+                    <md-button ng-if="!reminder.status" ng-click="reminders.updateStatus($event, reminder, 'review')" class="md-primary md-icon-button">
+                        <md-icon class="material-icons">visibility</md-icon>
+                    </md-button>
+                    <md-button ng-if="reminder.status === 'reviewed'" ng-click="reminders.updateStatus($event, reminder, 'complete')" class="md-primary md-icon-button">
+                        <md-icon class="material-icons">done</md-icon>
+                    </md-button>                
+                </div>                        
+            </div>
+            <div layout="column" layout-align="center start" flex="30">
+                <div ng-repeat="(key, order) in reminder.fields" ng-if="order.value" layout="row" layout-align="start center">
+                    <div class="name md-body-2">{{ (order.fieldName === 'cuttings' ? 'Cuttings/Bulbs' : order.fieldName) }}</div>
+                    <div class="name md-body-1">: {{ order.value }}</div>
+                </div>
+            </div>
+            <div layout="column" layout-align="center start" flex="30">
+                <div layout="row" layout-align="center center">
+                    <div class="md-body-2">Reminder ID</div>
+                    <div class="md-body-1">: {{ reminder.reminderKey | limitTo: -4 }}</div>                        
+                </div>
+                <div ng-if="reminder.reviewedBy" layout="row" layout-align="start center">                    
+                    <div class="md-body-2">Reviewed By</div>
+                    <div class="name md-body-1">: {{ reminder.reviewedBy }}</div>
+                </div>                
+                <div ng-if="reminder.reviewedBy" layout="row" layout-align="start center">                    
+                    <div class="md-body-2">Review Comment</div>
+                    <div class="md-body-1">: {{ reminder.reviewComment ? '"' + reminder.reviewComment + '"' : '-' }}</div>
+                </div>                                                                    
+            </div>            
+        </div>
+    </md-content>
+</div>

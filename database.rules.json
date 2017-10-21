@@ -1,0 +1,12 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "reminders": {
+        ".indexOn": ["date"]
+    },
+    "archive": {
+        ".indexOn": ["date"]
+    }
+  }
+}

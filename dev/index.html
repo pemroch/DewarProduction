@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>Dewar Productivity</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">        
+    <link rel="stylesheet" href="main.css">
+  
+  </head>
+  
+  <body ng-app="InteractiveMap">
+
+    <ui-view layout="column" layout-fill></ui-view>
+    
+    <!-- Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+    <script src="Dependencies/ui-router.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+    <script src="Dependencies/jspdf.js"></script>
+    
+    <!-- app -->
+    <script src="App/app/app.js"></script>
+    <script src="App/app/app.config.js"></script>
+    <script src="App/app/app.run.js"></script>
+
+    <!-- Modules -->
+    <script src="App/Modules/home.controllers.js"></script>
+    <script src="App/Modules/login.controllers.js"></script>
+    <script src="App/Modules/reminders.controllers.js"></script>
+    <script src="App/Modules/productivityItem.controllers.js"></script>
+    <script src="App/Modules/settings.controllers.js"></script>
+    <script src="App/Modules/archive.controllers.js"></script>
+    <script src="App/Modules/ui.services.js"></script>
+
+    <!-- UI -->
+    <script src="App/UI/Home/home.controller.js"></script>
+    <script src="App/UI/Login/login.controller.js"></script>
+    <script src="App/UI/Reminders/reminders.controller.js"></script>
+    <script src="App/UI/Reminders/updateStatus.controller.js"></script>
+    <script src="App/UI/Settings/users.controller.js"></script>
+    <script src="App/UI/Settings/addUser.controller.js"></script>
+    <script src="App/UI/Settings/editUser.controller.js"></script>
+    <script src="App/UI/ProductivityItem/productivityItem.controller.js"></script>
+    <script src="App/UI/ProductivityItem/addField.controller.js"></script>
+    <script src="App/UI/ProductivityItem/editField.controller.js"></script>
+    <script src="App/UI/ProductivityItem/changeDays.controller.js"></script>
+    <script src="App/UI/Archive/archive.controller.js"></script>
+          
+    <!-- UIServices -->
+    <script src="App/UI/UIServices/addArr.service.js"></script>
+    <script src="App/UI/UIServices/checkExist.service.js"></script>
+    <script src="App/UI/UIServices/createUser.service.js"></script>
+    <script src="App/UI/UIServices/focus.directive.js"></script>
+    <script src="App/UI/UIServices/loadArr.service.js"></script>
+    <script src="App/UI/UIServices/loadObj.service.js"></script>
+    <script src="App/UI/UIServices/login.service.js"></script>
+    <script src="App/UI/UIServices/setObj.service.js"></script>
+    <script src="App/UI/UIServices/updateObj.service.js"></script>
+    <script src="App/UI/UIServices/ignoreMouseWheel.directive.js"></script>
+    
+  </body>
+  
+</html>

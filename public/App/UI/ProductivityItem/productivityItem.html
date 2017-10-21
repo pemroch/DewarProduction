@@ -1,0 +1,142 @@
+<div ng-if="productivityItem.loading" class="progressFull md-display-1">
+    Loading...
+</div>
+
+<md-toolbar id="productivityToolbar">
+    <div class="md-toolbar-tools">
+        <md-button ng-click="productivityItem.toggleMenu()" class="md-icon-button">
+            <md-icon class="material-icons">menu</md-icon>
+        </md-button>        
+        <span flex></span>
+        <span ng-if="!productivityItem.loading" class="name">{{ productivityItem.itemName }}</span>
+        <span flex></span>
+        <div ng-if="!productivityItem.loading">
+            <md-button ng-if="home.user.data.isAdmin" ng-click="productivityItem.editFields = !productivityItem.editFields; productivityItem.removeFields = false" ng-class="{ editButton: productivityItem.editFields }">
+                <md-icon class="material-icons">edit</md-icon>
+                Column
+            </md-button>
+            <md-button ng-if="home.user.data.isAdmin" ng-click="productivityItem.removeFields = !productivityItem.removeFields; productivityItem.editFields = false" ng-class="{ editButton: productivityItem.removeFields }">
+                <md-icon class="material-icons">remove</md-icon>
+                Column
+            </md-button>
+            <md-button ng-if="home.user.data.isAdmin" ng-click="productivityItem.addField($event)">
+                <md-icon class="material-icons">add</md-icon>
+                Column
+            </md-button>
+            <md-button ng-click="productivityItem.print()" ng-disabled="!productivityItem.selectedArr.length" class="md-icon-button">
+                <md-icon class="material-icons">print</md-icon>
+            </md-button>            
+            <md-button ng-click="productivityItem.multiDelete($event)" ng-disabled="!productivityItem.selectedArr.length" class="md-icon-button">
+                <md-icon class="material-icons">delete</md-icon>
+            </md-button>                        
+        </div>
+    </div>
+</md-toolbar>
+
+<div id="productivityItemContainer" ng-if="!productivityItem.loading" layout="column" flex>
+    <div layout="row" layout-align="center center" id="newOrderColumn" class="md-padding">
+        Filter:
+        <span flex="5"></span>
+         <md-input-container flex="15">
+            <md-select ng-model="productivityItem.columnFilter" ng-change="productivityItem.filterItems()" aria-label="Column Filter" placeholder="Column">
+                <md-option ng-repeat="value in productivityItem.fields.data" ng-value="value" class="name">
+                    <span class="name">{{ value.fieldName }}</span>
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <span flex="5"></span>
+         <md-input-container ng-if="productivityItem.columnFilter" md-no-float flex="15">  
+            <md-select ng-model="productivityItem.filteredItem" ng-change="productivityItem.filterOrders()" aria-label="Item Filter" placeholder="Value">
+                <md-option ng-repeat="(key, item) in productivityItem.filteredItems" ng-value="{key: key, item: item}" class="name">
+                    <span class="name">{{ key }}</span>
+                </md-option>
+            </md-select>        
+        </md-input-container>
+        <md-button ng-if="productivityItem.columnFilter" ng-click="productivityItem.resetOrders()" class="md-warn md-icon-button"  md-no-ink>
+            <md-icon class="material-icons">clear</md-icon>
+        </md-button>        
+        <span flex></span>
+        <md-button ng-click="productivityItem.newOrder()" class="md-primary">
+            New Order
+        </md-button>
+    </div>
+    <md-content id="productivityItemChildContainer" class="md-padding" flex>
+        <div layout="row" layout-align="start center">    
+            <div layout="column" layout-align="center center" class="orderCheckBox" flex="5">
+                <md-checkbox ng-model="productivityItem.allSelected" ng-change="productivityItem.selectAll()" aria-label="Selected"></md-checkbox>
+            </div>                            
+            <div ng-repeat="(fieldKey, field) in productivityItem.fields.data" layout="row" layout-align="start center" class="fieldList orderColumnTitle name">
+                <md-button ng-if="productivityItem.removeFields && field.fieldName !== 'cuttings' && field.fieldName !== 'ppp' && field.fieldName !== 'qty of pots'" ng-click="productivityItem.removeField($event, fieldKey, field)" class="md-warn md-icon-button md-exclude removeFieldIcon"  md-no-ink>
+                    <md-icon class="material-icons">remove_circle</md-icon>
+                </md-button>
+                <md-button ng-if="productivityItem.editFields && !field.disabled && field.fieldName !== 'cuttings' && field.fieldName !== 'ppp' && field.fieldName !== 'qty of pots'" ng-click="productivityItem.editField($event, fieldKey, field)" class="md-primary md-icon-button md-exclude removeFieldIcon"  md-no-ink>
+                    <md-icon class="material-icons">edit</md-icon>
+                </md-button>                
+                <span ng-class="{ paddingReminder: field.category === 'reminder', paddingText: field.category === 'text' }" class="md-body-2">
+                    {{ (field.fieldName === 'cuttings' ? 'Cuttings/Bulbs' : field.fieldName) }}
+                </span>
+            </div>
+            <div layout="row" layout-align="start center" class="orderColumnTitle name">
+                <span class="md-body-2">Ship Date</span>
+            </div>
+            <div layout="row" layout-align="center center" class="orderId">
+                <div class="md-body-2">Order ID</div>
+            </div>
+        </div>
+        <form name="orderForm" ng-repeat="(orderKey, order) in productivityItem.orders.data" ng-if="productivityItem.filterObj[orderKey]" ng-class-odd="'odd'">
+            <div layout="row" layout-align="start center">
+                <div layout="column" layout-align="center center" class="orderCheckBox" flex="5">
+                    <md-checkbox ng-model="productivityItem.selectedKeys[orderKey]" ng-disabled="!order.shipDate" ng-change="productivityItem.selectedChanged(orderKey, order)" aria-label="Selected"></md-checkbox>
+                </div>
+                <div ng-repeat="(fieldKey, field) in order" ng-if="field.category" class="orderColumn" layout="row" layout-align="start center">
+                    <md-input-container ng-if="field.category === 'text' && field.fieldName !== 'cuttings' && field.fieldName !== 'ppp' && field.fieldName !== 'qty of pots'" md-no-float class="fieldInput name">
+                        <input ng-model="field.value" ng-model-options="{ debounce: 1000 }" ng-change="productivityItem.changesMade(orderKey, order, fieldKey, field)" ng-disabled="order.complete" placeholder="{{ field.fieldName }}" class="name" autocomplete="off">
+                    </md-input-container>
+                    <div ng-if="field.fieldName === 'cuttings'" layout="column" ng-class="{ orderComplete: order.complete }">
+                        {{ field.value | number : 0 }}
+                    </div>                    
+                    <md-input-container ng-if="field.fieldName === 'ppp'" md-no-float class="fieldInput name">
+                        <input type="number" ng-model="field.value" ng-model-options="{ debounce: 1000 }" ng-change="productivityItem.valueChange(orderKey, order)" ng-disabled="order.complete" placeholder="{{ field.fieldName }}" class="name" autocomplete="off" ignoremousewheel>
+                    </md-input-container>
+                    <div ng-if="field.fieldName === 'qty of pots'" class="commaCaption">
+                        {{ field.value | number: 0 }}
+                    </div>
+                    <md-input-container ng-if="field.fieldName === 'qty of pots'" md-no-float class="fieldInput">
+                        <input type="number" ng-model="field.value" ng-model-options="{ debounce: 1000 }" ng-change="productivityItem.valueChange(orderKey, order)" ng-disabled="order.complete" placeholder="{{ field.fieldName }}" autocomplete="off" ignoremousewheel>
+                    </md-input-container>
+                    <div ng-if="field.category === 'reminder'" ng-class="{ orderComplete: order.complete }" class="noMargin paddingDate fieldValue name md-body-1">
+                        {{ field.value | date: 'MM/dd/yyyy' }}
+                        <span ng-if="field.value" ng-click="productivityItem.changeDays($event, orderKey, fieldKey, field, order.shipDate)" ng-class="{ linkDisabled: order.complete }" class="md-caption link">({{ field.days }})</span>
+                    </div>
+                </div>
+                <div class="orderColumn" layout="row" layout-align="start center">
+                    <div ng-if="order.shipDate && !order.shipDateCalendar" class="shipDateDummy">{{ order.shipDate | date: 'MM/dd/yyyy' }}</div>
+                    <input type="date" ng-if="!order.shipDate || order.shipDateCalendar" ng-model="order.shipDateCalendar" ng-model-options="{ debounce: 2000 }" ng-change="productivityItem.dateChange(orderKey, order)" ng-disabled="order.complete" placeholder="Ship Date" class="shipDate">
+                </div>
+                <div layout="row" layout-align="start center" class="orderColumn">
+                    <div class="md-body-1 orderId">{{ orderKey | limitTo: -4 }}</div>                                            
+                    <md-button ng-if="home.user.data.isAdmin" ng-click="productivityItem.removeOrder($event, orderKey, order, orderKey)" class="md-warn md-icon-button md-exclude"  md-no-ink>
+                        <md-icon class="material-icons">delete</md-icon>
+                    </md-button>
+                    <div ng-if="order.complete" ng-class="{ orderComplete: order.complete }">
+                        Complete
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div layout="row" layout-align="start center">    
+            <div ng-repeat="(fieldKey, field) in productivityItem.fields.data" layout="row" layout-align="start center" class="fieldList orderColumnTitle name totalRow">                
+                <span ng-if="!field.total" class="orderTotal" flex></span>
+                <span ng-if="field.total" class="orderTotal" flex>{{ field.total | number : 0 }}</span>
+            </div>
+            <div class="orderColumnTotal totalRow" layout="row" layout-align="start center"></div>        
+        </div>        
+        <span class="spanBlock"></span>
+        <div layout="row">
+            <md-input-container flex="50">
+                <label>Notes</label>
+                <textarea ng-model="productivityItem.notes.data.$value" ng-model-options="{ debounce: 1000 }" ng-change="productivityItem.saveNotes()"></textarea>
+            </md-input-container>        
+        </div>             
+    </md-content>
+</div>
