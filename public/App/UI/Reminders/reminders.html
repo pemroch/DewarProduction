@@ -17,17 +17,46 @@
 </md-toolbar>
 
 <div ng-if="!reminders.loading" id="remindersContainer" layout="column" flex>
-    <form name="reminders.form" layout="row" layout-align="end center" class="updateDaysRow md-padding">
-        <md-input-container flex="10">
+    <div id="reminders-subtoolbar" layout="row" class="md-padding">
+        <md-input-container ng-if="reminders.reminders.length" flex="10">
+            <label>Filter</label>
+            <md-select ng-model="reminders.filter" md-float aria-label="Filter">
+                <md-option value="crop">Crop</md-option>
+                <md-option value="action">Action</md-option>
+                <md-option value="status">Status</md-option>
+                <md-option value="customer">Customer</md-option>
+                <md-option value="order">Order#</md-option>
+                <md-option value="soil">Soil</md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container ng-if="reminders.reminders.length" flex="15">
+            <label>Search</label>
+            <input type="search" ng-model="reminders.search[reminders.filter]" ng-disabled="!reminders.filter" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="name">
+        </md-input-container>
+        <span flex></span>
+        <!-- Non Admin Updater -->
+        <md-input-container ng-if="!home.user.data.isAdmin" flex="10">
             <label>Days in the future</label>
             <input type="number" ng-model="reminders.days" required>
         </md-input-container>
-        <md-button type="submit" ng-click="reminders.loadReminders()" ng-disabled="reminders.form.$invalid" class="md-primary">
+        <md-button ng-if="!home.user.data.isAdmin" type="submit" ng-click="reminders.loadReminders()" ng-disabled="!reminders.days" class="md-primary">
             Update
         </md-button>
-    </form>
+        <!-- Admin Updater -->
+        <md-input-container ng-if="home.user.data.isAdmin">
+            <label>Start Date</label>
+            <md-datepicker ng-model="reminders.startDate" md-open-on-focus></md-datepicker>
+        </md-input-container>
+        <md-input-container ng-if="home.user.data.isAdmin">
+            <label>End Date</label>
+            <md-datepicker ng-model="reminders.endDate" md-open-on-focus></md-datepicker>
+        </md-input-container>
+        <md-button ng-if="home.user.data.isAdmin" type="submit" ng-click="reminders.loadAdminReminders()" ng-disabled="!reminders.days" class="md-primary">
+            Update
+        </md-button>
+    </div>
     <md-content id="remindersChildContainer" flex>
-        <div ng-repeat="reminder in reminders.reminders | orderBy: 'date' track by $index" class="md-padding" ng-class-odd="'odd'" layout="row">
+        <div ng-repeat="reminder in reminders.reminders | orderBy: 'date' | filter: reminders.search[reminders.filter] track by $index" class="md-padding" ng-class-odd="'odd'" layout="row">
             <div layout="column" layout-align="center center" flex="5">
                 <div layout="row" layout-align="center center">
                     <md-checkbox ng-model="reminder.selected" ng-change="reminders.selectedChanged(reminder)" aria-label="Selected"></md-checkbox>
