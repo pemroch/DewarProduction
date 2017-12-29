@@ -19,6 +19,10 @@
         var vm = this;
 
         vm.form;
+        vm.search = '';
+        vm.filter = '';
+        vm.startDate = new Date();
+        vm.endDate = new Date();
         vm.reminders = [];
         vm.selected = [];
         vm.loading = true;
@@ -26,22 +30,50 @@
         vm.print = print;
         vm.toggleMenu = toggleMenu;
         vm.loadReminders = loadReminders;
+        vm.loadAdminReminders = loadAdminReminders;
         vm.updateStatus = updateStatus;
         vm.selectedChanged = selectedChanged;
 
         $mdSidenav('left').close();
 
         $timeout(function() {
-            loadReminders();
+            $rootScope.firebaseRef.child('users').child($rootScope.user.uid).once("value", function(user) {
+                if (user.val().isAdmin) {
+                    loadAdminReminders();
+                } else {
+                    loadReminders();
+                }
+            });
         }, 800);
 
         function loadReminders () {
             vm.loading = true;
+            vm.search = '';
+            vm.filter = '';            
             var date = new Date();
             date.setDate(date.getDate() + vm.days);
             var ref = $rootScope.firebaseRef;
             var refChild = ref.child('reminders')
             refChild.orderByChild("date").endAt(date.getTime()).on("value", function(snapshot) {
+                $timeout(function() {
+                    vm.reminders = [];
+                    angular.forEach(snapshot.val(), function(value, key) {
+                        value.reminderKey = key;
+                        vm.reminders.push(value)
+                    });
+                    vm.loading = false;
+                });
+            });
+        }
+
+        function loadAdminReminders () {
+            vm.loading = true;
+            vm.search = '';
+            vm.filter = '';
+            var startDate = new Date(vm.startDate).getTime();
+            var endDate = new Date(vm.endDate).getTime();
+            var ref = $rootScope.firebaseRef;
+            ref.child('reminders').orderByChild("date").startAt(startDate).endAt(endDate).on("value", function(snapshot) {
                 $timeout(function() {
                     vm.reminders = [];
                     angular.forEach(snapshot.val(), function(value, key) {

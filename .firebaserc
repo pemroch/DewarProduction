@@ -1,9 +1,6 @@
 {
   "projects": {
     "default": "dewarproductivity",
-    "dewarProductivity": "dewarproductivity",
-    "dewarproductivitytest": "dewarproductivitytest",
-    "dewarproductivity": "dewarproductivity",
-    "productivitytest": "dewarproductivitytest"
+    "test": "dewarproductivitytest"
   }
 }

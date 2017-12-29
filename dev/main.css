@@ -311,3 +311,8 @@
     width: 60px;
     min-width: 60px;
 }
+#reminders-subtoolbar {
+    height: 110px;
+    border-bottom: 1px solid #6639bb;
+    padding-bottom: 60px;
+}
