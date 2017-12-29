@@ -52,7 +52,9 @@
                 $timeout(function() {
                     vm.reminders = [];
                     angular.forEach(snapshot.val(), function(value, key) {
-                        vm.filterKeys[key] = true;
+                        if (!vm.filterSet) {
+                            vm.filterKeys[key] = true;
+                        }
                         value.reminderKey = key;
                         vm.reminders.push(value)
                     });

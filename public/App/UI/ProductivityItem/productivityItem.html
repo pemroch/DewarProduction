@@ -66,10 +66,10 @@
                 <md-checkbox ng-model="productivityItem.allSelected" ng-change="productivityItem.selectAll()" aria-label="Selected"></md-checkbox>
             </div>                            
             <div ng-repeat="(fieldKey, field) in productivityItem.fields.data" layout="row" layout-align="start center" class="fieldList orderColumnTitle name">
-                <md-button ng-if="productivityItem.removeFields && field.fieldName !== 'cuttings' && field.fieldName !== 'ppp' && field.fieldName !== 'qty of pots'" ng-click="productivityItem.removeField($event, fieldKey, field)" class="md-warn md-icon-button md-exclude removeFieldIcon"  md-no-ink>
+                <md-button ng-if="productivityItem.removeFields && field.fieldName !== 'order #' && field.fieldName !== 'customer' && field.fieldName !== 'cuttings' && field.fieldName !== 'ppp' && field.fieldName !== 'qty of pots'" ng-click="productivityItem.removeField($event, fieldKey, field)" class="md-warn md-icon-button md-exclude removeFieldIcon"  md-no-ink>
                     <md-icon class="material-icons">remove_circle</md-icon>
                 </md-button>
-                <md-button ng-if="productivityItem.editFields && !field.disabled && field.fieldName !== 'cuttings' && field.fieldName !== 'ppp' && field.fieldName !== 'qty of pots'" ng-click="productivityItem.editField($event, fieldKey, field)" class="md-primary md-icon-button md-exclude removeFieldIcon"  md-no-ink>
+                <md-button ng-if="productivityItem.editFields && field.fieldName !== 'order #' && field.fieldName !== 'customer' && !field.disabled && field.fieldName !== 'cuttings' && field.fieldName !== 'ppp' && field.fieldName !== 'qty of pots'" ng-click="productivityItem.editField($event, fieldKey, field)" class="md-primary md-icon-button md-exclude removeFieldIcon"  md-no-ink>
                     <md-icon class="material-icons">edit</md-icon>
                 </md-button>                
                 <span ng-class="{ paddingReminder: field.category === 'reminder', paddingText: field.category === 'text' }" class="md-body-2">

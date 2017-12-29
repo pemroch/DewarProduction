@@ -18,11 +18,21 @@
 
 <div ng-if="!reminders.loading" id="remindersContainer" layout="column" flex>
     <div id="reminders-subtoolbar" layout="row" class="md-padding">
-        <md-input-container ng-if="reminders.reminders.length" flex="15">
-            <label>Crop</label>
-            <input type="search" ng-model="reminders.search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="name">
+        <md-input-container flex="15">
+            <label>Filter</label>
+            <md-select ng-model="reminders.filterSelect" aria-label="Filter Select">
+                <md-option value="crop">Crop</md-option>
+                <md-option value="customer">Customer</md-option>
+                <md-option value="orderNo">Order #</md-option>
+                <md-option value="pending">Pending</md-option>
+                <md-option value="reviewed">Reviewed</md-option>
+            </md-select>
+        </md-input-container>        
+        <md-input-container ng-if="reminders.reminders.length && reminders.filterSelect !== 'pending' && reminders.filterSelect !== 'reviewed'" flex="15">
+            <label>Filter Value</label>
+            <input type="search" ng-model="reminders.search" ng-disabled="!reminders.filterSelect" aria-label="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="name">
         </md-input-container>
-        <md-button ng-click="reminders.filter()" ng-disabled="!reminders.search" class="md-primary">
+        <md-button ng-click="reminders.filter()" ng-disabled="!reminders.search && reminders.filterSelect !== 'pending' && reminders.filterSelect !== 'reviewed'" class="md-primary">
             Filter
         </md-button>        
         <md-button ng-if="reminders.filterSet" ng-click="reminders.clearFilter()" class="md-warn">
@@ -72,7 +82,7 @@
             <div layout="column" layout-align="center start" flex="30">
                 <div ng-repeat="(key, order) in reminder.fields" ng-if="order.value" layout="row" layout-align="start center">
                     <div class="name md-body-2">{{ (order.fieldName === 'cuttings' ? 'Cuttings/Bulbs' : order.fieldName) }}</div>
-                    <div class="name md-body-1">: {{ order.value }}</div>
+                    <div class="name md-body-1">: {{ order.value | number: 2  }}</div>
                 </div>
             </div>
             <div layout="column" layout-align="center start" flex="30">
