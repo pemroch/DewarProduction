@@ -1,6 +1,6 @@
 {
   "name": "dewarproductivity",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "Dewar Production",
   "main": "index.html",
   "scripts": {
@@ -13,5 +13,16 @@
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-uglify": "^1.0.1"
-  }
+  },
+  "dependencies": {
+    "grunt": "^1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pemroch/DewarProduction.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pemroch/DewarProduction/issues"
+  },
+  "homepage": "https://github.com/pemroch/DewarProduction#readme"
 }

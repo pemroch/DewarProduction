@@ -20,6 +20,7 @@
 
         vm.form;
         vm.search = '';
+        vm.filterSelect = '';
         vm.filterSet = false;
         vm.reminders = [];
         vm.filterKeys = {};
@@ -61,16 +62,49 @@
         }
 
         
-        function filter(reminder) {
+        function filter() {
             vm.loading = true;
             $timeout(function() {
                 for (var i = 0; i < vm.reminders.length; i++) {
-                    var itemName = vm.reminders[i].itemName.toLowerCase();
-                    var search = vm.search.toLowerCase();
-                    if (vm.reminders[i].itemName && itemName.includes(search)) {
-                        vm.filterKeys[vm.reminders[i].reminderKey] = true;
-                    } else {
-                        vm.filterKeys[vm.reminders[i].reminderKey] = false;
+                    vm.filterKeys[vm.reminders[i].reminderKey] = false;
+                    if (vm.filterSelect === 'crop' && vm.reminders[i].itemName) {
+                        var itemName = vm.reminders[i].itemName.toLowerCase();
+                        var search = vm.search.toLowerCase();
+                        if (itemName.includes(search)) {
+                            vm.filterKeys[vm.reminders[i].reminderKey] = true;
+                        }
+                    }
+                    if (vm.filterSelect === 'customer' && vm.reminders[i].fields) {
+                        for (var j in vm.reminders[i].fields) {
+                            if (vm.reminders[i].fields[j].fieldName === 'customer') {
+                                var customer = vm.reminders[i].fields[j].value.toLowerCase();
+                                var search = vm.search.toLowerCase();
+                                if (customer.includes(search)) {
+                                    vm.filterKeys[vm.reminders[i].reminderKey] = true;
+                                }
+                            }
+                        }
+                    }                    
+                    if (vm.filterSelect === 'orderNo' && vm.reminders[i].fields) {
+                        for (var j in vm.reminders[i].fields) {
+                            if (vm.reminders[i].fields[j].fieldName === 'order #') {
+                                var orderNo = vm.reminders[i].fields[j].value.toLowerCase();
+                                var search = vm.search.toLowerCase();
+                                if (orderNo.includes(search)) {
+                                    vm.filterKeys[vm.reminders[i].reminderKey] = true;
+                                }                           
+                            } 
+                        }
+                    }                    
+                    if (vm.filterSelect === 'pending') {
+                        if (!vm.reminders[i].status) { 
+                            vm.filterKeys[vm.reminders[i].reminderKey] = true;
+                        }
+                    }                    
+                    if (vm.filterSelect === 'reviewed') {
+                        if (vm.reminders[i].status && vm.reminders[i].status === 'reviewed') { 
+                            vm.filterKeys[vm.reminders[i].reminderKey] = true;
+                        }
                     }
                 }
                 vm.loading = false;
@@ -79,6 +113,7 @@
         }
 
         function clearFilter() {
+            vm.filterSelect = '';
             vm.search = '';
             vm.filterSet = false;
             vm.loading = true;
