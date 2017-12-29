@@ -47,3 +47,4 @@ testem.log
 Thumbs.db
 
 /src/app-exports/firebase.config.ts
+public/App/.DS_Store

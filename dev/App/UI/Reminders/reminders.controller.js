@@ -62,6 +62,7 @@
 
         
         function filter(reminder) {
+            vm.loading = true;
             $timeout(function() {
                 for (var i = 0; i < vm.reminders.length; i++) {
                     var itemName = vm.reminders[i].itemName.toLowerCase();
@@ -72,6 +73,7 @@
                         vm.filterKeys[vm.reminders[i].reminderKey] = false;
                     }
                 }
+                vm.loading = false;
                 vm.filterSet = true;
             }, 800);
         }
