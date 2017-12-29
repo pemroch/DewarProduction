@@ -20,36 +20,29 @@
 
         vm.form;
         vm.search = '';
-        vm.filter = '';
-        vm.startDate = new Date();
-        vm.endDate = new Date();
+        vm.filterSet = false;
         vm.reminders = [];
+        vm.filterKeys = {};
         vm.selected = [];
         vm.loading = true;
         vm.days = 7;
         vm.print = print;
         vm.toggleMenu = toggleMenu;
         vm.loadReminders = loadReminders;
-        vm.loadAdminReminders = loadAdminReminders;
         vm.updateStatus = updateStatus;
         vm.selectedChanged = selectedChanged;
+        vm.clearFilter = clearFilter;
+        vm.filter = filter;
 
         $mdSidenav('left').close();
 
         $timeout(function() {
-            $rootScope.firebaseRef.child('users').child($rootScope.user.uid).once("value", function(user) {
-                if (user.val().isAdmin) {
-                    loadAdminReminders();
-                } else {
-                    loadReminders();
-                }
-            });
+            loadReminders();
         }, 800);
 
         function loadReminders () {
             vm.loading = true;
             vm.search = '';
-            vm.filter = '';            
             var date = new Date();
             date.setDate(date.getDate() + vm.days);
             var ref = $rootScope.firebaseRef;
@@ -58,6 +51,7 @@
                 $timeout(function() {
                     vm.reminders = [];
                     angular.forEach(snapshot.val(), function(value, key) {
+                        vm.filterKeys[key] = true;
                         value.reminderKey = key;
                         vm.reminders.push(value)
                     });
@@ -66,25 +60,34 @@
             });
         }
 
-        function loadAdminReminders () {
-            vm.loading = true;
-            vm.search = '';
-            vm.filter = '';
-            var startDate = new Date(vm.startDate).getTime();
-            var endDate = new Date(vm.endDate).getTime();
-            var ref = $rootScope.firebaseRef;
-            ref.child('reminders').orderByChild("date").startAt(startDate).endAt(endDate).on("value", function(snapshot) {
-                $timeout(function() {
-                    vm.reminders = [];
-                    angular.forEach(snapshot.val(), function(value, key) {
-                        value.reminderKey = key;
-                        vm.reminders.push(value)
-                    });
-                    vm.loading = false;
-                });
-            });
-        }
         
+        function filter(reminder) {
+            $timeout(function() {
+                for (var i = 0; i < vm.reminders.length; i++) {
+                    var itemName = vm.reminders[i].itemName.toLowerCase();
+                    var search = vm.search.toLowerCase();
+                    if (vm.reminders[i].itemName && itemName.includes(search)) {
+                        vm.filterKeys[vm.reminders[i].reminderKey] = true;
+                    } else {
+                        vm.filterKeys[vm.reminders[i].reminderKey] = false;
+                    }
+                }
+                vm.filterSet = true;
+            }, 800);
+        }
+
+        function clearFilter() {
+            vm.search = '';
+            vm.filterSet = false;
+            vm.loading = true;
+            $timeout(function() {
+                for (var i = 0; i < vm.reminders.length; i++) {
+                    vm.filterKeys[vm.reminders[i].reminderKey] = true;
+                }            
+                vm.loading = false;
+            }, 800);
+        }
+
         function updateStatus ($event, reminder, action) {
             $mdDialog.show({
                 controller: 'UpdateStatusCtrl',
