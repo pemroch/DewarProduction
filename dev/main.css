@@ -60,6 +60,9 @@
 .redIcon md-icon {
     color: rgb(255,87,34) !important;
 }
+.purpleIcon md-icon {
+    color: #673AB7 !important;
+}
 .noMargin {
     margin: 0px !important;
 }

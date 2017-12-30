@@ -23,29 +23,19 @@
 
         vm.addNewItemForm;
         vm.error = '';
+        vm.editError = '';
         vm.newItemTitle = '';
         vm.user = null;
         vm.loading = true;
         vm.newItem = false;
-        vm.editItem = false;
+        vm.showRemoveItem = false;
+        vm.showEditItem = false;
         vm.disableSubmit = false;
         vm.productivityList = [];
         vm.focus = focus;
-        vm.removItem = removItem;
+        vm.removeItem = removeItem;
         vm.checkExist = checkExist;
-
-        vm.addNewItemForm;
-        vm.error = '';
-        vm.newItemTitle = '';
-        vm.user = null;
-        vm.loading = true;
-        vm.newItem = false;
-        vm.editItem = false;
-        vm.disableSubmit = false;
-        vm.focus = focus;
-        vm.checkExist = checkExist;
-        vm.productivityList = [];
-        vm.removItem = removItem;
+        vm.editItem = editItem;
         
         $timeout(function() {
             loadProductivitylist();
@@ -133,7 +123,7 @@
             $state.go('home.productivityItem', { itemName: newItem, itemKey: productivityListRefPushRef.key })
         }
 
-        function removItem ($event, item) {
+        function removeItem ($event, item) {
             $mdDialog.show(
                 $mdDialog.confirm()
                 .title('Would you like to remove item?')
@@ -145,7 +135,8 @@
             )
             .then( function() {
                 vm.newItem = false;
-                vm.editItem = false;
+                vm.showRemoveItem = false;
+                vm.showEditItem = false;
                 SetObjService('fields/' + item.$id, null);
                 SetObjService('notes/' + item.$id, null);
                 SetObjService('productivityList/' + item.$id, null);
@@ -167,9 +158,42 @@
             });        
         }
 
+        function editItem ($event, item) {
+            var error = '';
+            $mdDialog.show(
+                $mdDialog.prompt()
+                .title('Edit Crop Name')
+                .targetEvent($event)
+                .textContent(error)
+                .placeholder('Enter New Name')
+                .initialValue(capFirstLetter(item.itemName))
+                .ok('Confirm')
+                .cancel('Cancel')
+                .clickOutsideToClose('false')
+            )
+            .then( function(newName) {
+                vm.newItem = false;
+                vm.showRemoveItem = false;
+                vm.showEditItem = false;
+                newName = newName.toLowerCase();
+                CheckExistService(vm.productivityList, 'itemName', newName)
+                .then(function(result) {
+                    if (result === 'notExist') {
+                        SetObjService('productivityList/' + item.$id + '/itemName', newName);
+                    } else {
+                        vm.editError = 'Item already exist please try again.'
+                        $timeout(function() {
+                            vm.editError = ''
+                        }, 4000);
+                    }
+                });
+            });        
+        }
+
         function focus () {
             vm.newItem = !vm.newItem; 
-            vm.editItem = false; 
+            vm.showRemoveItem = false; 
+            vm.showEditItem = false;
             vm.newItemTitle = '';
             if (vm.newItem) {
                 $timeout(function() {
