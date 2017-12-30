@@ -181,10 +181,11 @@
                 .then(function(user) {
                     var ref = $rootScope.firebaseRef;
                     var dateRefObj = {
+                        itemName: $stateParams.itemName,
                         status: null,
                         reviewedBy: null,
                         reviewComment: null
-                    }                    
+                    }
                     angular.forEach(order, function(value, key) {                
                         if (value.category === 'reminder' && !value.complete) {
                             var dateRefChild = ref.child('reminders/' + value.reminderKey);    
@@ -244,10 +245,11 @@
                 LoadObjService('userNames/' + firebase.auth().currentUser.uid)
                 .then(function(user) {
                     var dateRefObj = {
+                        itemName: $stateParams.itemName,
                         status: null,
                         reviewedBy: null,
                         reviewComment: null
-                    }                    
+                    }       
                     angular.forEach(order, function(value, key) {
                         if (value.category === 'reminder' && !value.complete) {
                             var remindersRef = ref.child('reminders/' + value.reminderKey);    
@@ -305,6 +307,7 @@
                         SetObjService('itemProductivity/' + $stateParams.itemKey + '/' + orderKey + '/' + key + '/reminderKey', refChildPush.key);
                     } else if (!value.complete) {
                         var dateRefObj = {
+                            itemName: $stateParams.itemName,
                             date: value.date,
                             status: null,
                             reviewedBy: null,

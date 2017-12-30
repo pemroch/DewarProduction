@@ -82,7 +82,7 @@
             <div layout="column" layout-align="center start" flex="30">
                 <div ng-repeat="(key, order) in reminder.fields" ng-if="order.value" layout="row" layout-align="start center">
                     <div class="name md-body-2">{{ (order.fieldName === 'cuttings' ? 'Cuttings/Bulbs' : order.fieldName) }}</div>
-                    <div class="name md-body-1">: {{ order.value | number: 2  }}</div>
+                    <div class="name md-body-1">: {{ order.fieldName === 'cuttings' ? (order.value | number: 0) : order.value  }}</div>
                 </div>
             </div>
             <div layout="column" layout-align="center start" flex="30">
